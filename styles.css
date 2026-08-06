@@ -11,3 +11,47 @@ nav ul { list-style: none; padding: 0; }
 nav li { margin: 0.25rem 0; }
 a { color: #0070f3; text-decoration: none; }
 a:hover { text-decoration: underline; }
+
+/* Map gallery styles */
+.map-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.map-card {
+  display: block;
+  text-align: center;
+  padding: 0.5rem;
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  overflow: visible; /* ensure captions are never clipped */
+}
+.map-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+.map-card figcaption {
+  margin-top: 0.5rem;
+  white-space: normal;
+  overflow: visible;
+}
+
+/* Large CTA on homepage */
+.big-cta {
+  display: inline-block;
+  background: #0070f3;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(2,6,23,0.08);
+}
+.big-cta:hover { background: #0057c7; }
+
+.subtitle { color: #555; margin-top: 0.25rem; }
+
