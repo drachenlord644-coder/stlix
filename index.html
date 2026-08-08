@@ -14,26 +14,28 @@
   <main>
     <section class="interactive-home">
       <div class="navigator">
-        <button id="arrow-up" class="arrow arrow-big up" aria-label="Go to Brigher Province">
-          <img src="interactivemaping/big-arrowupdown.png" alt="Up arrow">
-        </button>
+        <div class="map-frame">
+          <button id="arrow-up" class="arrow arrow-big up" aria-label="Go to Brigher Province">
+            <img src="interactivemaping/big-arrowupdown.png" alt="Up arrow">
+          </button>
 
-        <div class="region-display">
-          <img id="region-image" src="interactivemaping/alarrRegion.png" alt="Alarr Region">
-          <div id="region-name" class="region-label">Alarr Region</div>
+          <button id="arrow-left" class="arrow arrow-small left" aria-label="Go to Alarrian Wilderness">
+            <img src="interactivemaping/small-arrowleftright.png" alt="Left arrow">
+          </button>
+
+          <div class="region-display">
+            <img id="region-image" src="interactivemaping/alarrRegion.png" alt="Alarr Region">
+            <div id="region-name" class="region-label">Alarr Region</div>
+          </div>
+
+          <button id="arrow-right" class="arrow arrow-small right" aria-label="Go to Alarr Coast">
+            <img src="interactivemaping/small-arrowleftright.png" alt="Right arrow">
+          </button>
+
+          <button id="arrow-down" class="arrow arrow-big down hidden" aria-label="Go back to Alarr Region">
+            <img src="interactivemaping/big-arrowupdown.png" alt="Down arrow">
+          </button>
         </div>
-
-        <button id="arrow-left" class="arrow arrow-small left" aria-label="Go to Alarrian Wilderness">
-          <img src="interactivemaping/small-arrowleftright.png" alt="Left arrow">
-        </button>
-
-        <button id="arrow-right" class="arrow arrow-small right" aria-label="Go to Alarr Coast">
-          <img src="interactivemaping/small-arrowleftright.png" alt="Right arrow">
-        </button>
-
-        <button id="arrow-down" class="arrow arrow-big down hidden" aria-label="Go back to Alarr Region">
-          <img src="interactivemaping/big-arrowupdown.png" alt="Down arrow">
-        </button>
       </div>
 
       <p class="instructions">Use the arrows to move between regions. East → Alarr Coast, West → Alarrian Wilderness, North → Brigher Province.</p>
