@@ -61,6 +61,8 @@ main {
   width: 100%;
   display: grid;
   place-items: center;
+  padding: 0;
+  margin: 0;
 }
 
 .region-display img {
@@ -104,45 +106,48 @@ main {
 
 .arrow img {
   display: block;
-  width: 88px;
+  width: auto;
   height: auto;
   transition: transform 0.15s ease;
 }
 
 .arrow-big img {
-  width: 160px;
+  width: 500px;
+  height: 64px;
 }
 
 .arrow-small img {
   width: 72px;
+  height: 200px;
 }
 
 .arrow.up {
-  top: -42px;
+  top: -64px;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .arrow.down {
-  bottom: -42px;
+  bottom: -64px;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .arrow.left {
-  left: -42px;
+  left: -72px;
   top: 50%;
   transform: translateY(-50%);
 }
 
 .arrow.right {
-  right: -42px;
+  right: -72px;
   top: 50%;
   transform: translateY(-50%);
 }
 
 .arrow.up img {
-  transform: rotate(180deg);  width: 220px;}
+  transform: rotate(180deg);
+}
 
 .arrow.down img {
   transform: rotate(0deg);
