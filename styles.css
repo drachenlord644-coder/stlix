@@ -91,6 +91,9 @@ main {
   justify-content: center;
   background: transparent;
   color: transparent;
+  text-indent: -9999px;
+  overflow: hidden;
+  opacity: 0;
   text-decoration: none;
   border: none;
   font-weight: 700;
