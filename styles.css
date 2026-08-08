@@ -124,7 +124,7 @@ main {
 }
 
 .arrow.up {
-  top: -32px;
+  top: -42px;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -136,13 +136,13 @@ main {
 }
 
 .arrow.left {
-  left: -36px;
+  left: -42px;
   top: 50%;
   transform: translateY(-50%);
 }
 
 .arrow.right {
-  right: -36px;
+  right: -42px;
   top: 50%;
   transform: translateY(-50%);
 }
