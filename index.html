@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>stylix - Wiki</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
   <header>
@@ -25,8 +25,8 @@
 
           <div class="region-display">
             <img id="region-image" src="interactivemaping/alarrRegion.png" alt="Alarr Region">
-            <div id="region-name" class="region-label">Alarr Region</div>
             <a id="briar-button" class="briar-button" href="docs/alarr-region/briar-heights-6.html">Briar Heights</a>
+            <div class="home-map-links" id="home-map-links"></div>
           </div>
 
           <button id="arrow-right" class="arrow arrow-small right" aria-label="Go to Alarr Coast">
@@ -38,9 +38,6 @@
           </button>
         </div>
       </div>
-
-      <p class="instructions">Use the arrows to move between regions. East → Alarr Coast, West → Alarrian Wilderness, North → Brigher Province.</p>
-    </section>
   </main>
   <footer>
     <small>stylix — map navigator</small>
@@ -77,10 +74,44 @@
     const state = { current: 'alarrRegion' };
     const regionImage = document.getElementById('region-image');
     const regionName = document.getElementById('region-name');
+    const homeMapLinks = document.getElementById('home-map-links');
     const arrowUp = document.getElementById('arrow-up');
     const arrowDown = document.getElementById('arrow-down');
     const arrowLeft = document.getElementById('arrow-left');
     const arrowRight = document.getElementById('arrow-right');
+
+    const regionButtons = {
+      alarrRegion: [
+        { label: 'Skyline Hill', href: 'docs/alarr-region/skyline-hill-1.html' },
+        { label: 'Briar Heights', href: 'docs/alarr-region/briar-heights-6.html' },
+        { label: 'Mount Solkara', href: 'docs/alarr-region/mount-solkara-4.html' },
+        { label: 'Stoneveil Peak', href: 'docs/alarr-region/stoneveil-peak-1.html' },
+        { label: 'Flatrock Crest', href: 'docs/alarr-region/flatrock-crest-1.html' },
+        { label: 'Training Grounds', href: 'docs/alarr-region/training-grounds-1.html' },
+        { label: 'Willow Back Rise', href: 'docs/alarr-region/willow-back-rise-1.html' },
+        { label: 'Branchline Stockyard', href: 'docs/alarr-region/branchline-stockyard-1.html' },
+        { label: 'Pebbletop', href: 'docs/alarr-region/pebbletop-1.html' },
+        { label: 'Climbers Ascention', href: 'docs/alarr-region/climbers-ascention-2.html' },
+        { label: 'Ruined Skyscraper', href: 'docs/alarr-region/ruined-skyscraper-5.html' },
+        { label: 'Carl\'s Supply Shack', href: 'docs/alarr-region/carls-supply-shack.html' },
+        { label: 'Cliffside Lunar', href: 'docs/alarr-region/cliffside-lunar-3.html' }
+      ],
+      alarrCoast: [],
+      alarrianWilderness: [],
+      brigherProvince: []
+    };
+
+    function renderLinks(buttons) {
+      homeMapLinks.innerHTML = '';
+      if (!buttons?.length) return;
+      buttons.forEach(({ label, href }, index) => {
+        const link = document.createElement('a');
+        link.className = `home-map-link home-link-${index + 1}`;
+        link.href = href;
+        link.textContent = label;
+        homeMapLinks.appendChild(link);
+      });
+    }
 
     function updateArrow(button, direction, target) {
       if (!target) {
@@ -111,6 +142,7 @@
       regionImage.alt = region.alt;
       regionName.textContent = region.name;
 
+      renderLinks(regionButtons[state.current]);
       updateArrow(arrowUp, 'up', region.arrows?.up);
       updateArrow(arrowDown, 'down', region.arrows?.down);
       updateArrow(arrowLeft, 'left', region.arrows?.left);
