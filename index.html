@@ -25,7 +25,7 @@
 
           <div class="region-display">
             <img id="region-image" src="interactivemaping/alarrRegion.png" alt="Alarr Region">
-            <p id="region-name" class="region-label">Alarr Region</p>
+            <canvas id="region-canvas" aria-hidden="true"></canvas>
             <div class="home-map-links" id="home-map-links"></div>
           </div>
 
@@ -38,6 +38,7 @@
           </button>
         </div>
       </div>
+    </section>
   </main>
   <footer>
     <small>stylix — map navigator</small>
@@ -73,12 +74,153 @@
 
     const state = { current: 'alarrRegion' };
     const regionImage = document.getElementById('region-image');
-    const regionName = document.getElementById('region-name');
+    const regionCanvas = document.getElementById('region-canvas');
     const homeMapLinks = document.getElementById('home-map-links');
+    const regionDisplay = document.querySelector('.region-display');
     const arrowUp = document.getElementById('arrow-up');
     const arrowDown = document.getElementById('arrow-down');
     const arrowLeft = document.getElementById('arrow-left');
     const arrowRight = document.getElementById('arrow-right');
+
+    // Color swaps: { target, replacement, tolerance }
+    const colorSwaps = [
+      { target: { r: 254, g: 249, b: 222 }, replacement: { r: 238, g: 240, b: 99 }, tolerance: 40 },  // #fef9de -> #eef063
+      { target: { r: 210, g: 201, b: 179 }, replacement: { r: 208, g: 210, b: 86 }, tolerance: 40 }  // #d2c9b3 -> #d0d256
+    ];
+    const sourceCanvas = document.createElement('canvas');
+    const sourceCtx = sourceCanvas.getContext('2d');
+    const overlayCtx = regionCanvas.getContext('2d');
+    let imageReady = false;
+    let yellowReady = false;
+
+    function colorDistance(r1, g1, b1, r2, g2, b2) {
+      return Math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2);
+    }
+
+    // Returns the replacement color for a pixel, or null if it should stay.
+    function getReplacementColor(r, g, b, a) {
+      if (a < 220) return null;
+      for (const swap of colorSwaps) {
+        if (colorDistance(r, g, b, swap.target.r, swap.target.g, swap.target.b) < swap.tolerance) {
+          return swap.replacement;
+        }
+      }
+      return null;
+    }
+
+    function resizeCanvases() {
+      const width = regionImage.naturalWidth || regionImage.width;
+      const height = regionImage.naturalHeight || regionImage.height;
+      if (!width || !height) return;
+      sourceCanvas.width = regionCanvas.width = width;
+      sourceCanvas.height = regionCanvas.height = height;
+      regionCanvas.style.width = '100%';
+      regionCanvas.style.height = '100%';
+    }
+
+    function updateSourceCanvas() {
+      resizeCanvases();
+      sourceCtx.clearRect(0, 0, sourceCanvas.width, sourceCanvas.height);
+      sourceCtx.drawImage(regionImage, 0, 0, sourceCanvas.width, sourceCanvas.height);
+      imageReady = true;
+      prerenderYellow();
+    }
+
+    // Pre-render the full map with its light/white pixels replaced by yellow.
+    // This is done ONCE per image; hovering then just reveals the relevant
+    // slice of this overlay (see showHighlight), which avoids any per-hover
+    // canvas work and any layout shift.
+    function prerenderYellow() {
+      const width = sourceCanvas.width;
+      const height = sourceCanvas.height;
+      if (!width || !height || !imageReady) return;
+      try {
+        const imageData = sourceCtx.getImageData(0, 0, width, height);
+        overlayCtx.clearRect(0, 0, regionCanvas.width, regionCanvas.height);
+        overlayCtx.putImageData(replaceTargetPixels(imageData), 0, 0);
+        yellowReady = true;
+      } catch (e) {
+        yellowReady = false;
+        console.warn('Yellow map highlight unavailable:', e);
+      }
+    }
+
+    function replaceTargetPixels(imageData) {
+      const data = imageData.data;
+      for (let i = 0; i < data.length; i += 4) {
+        const replacement = getReplacementColor(data[i], data[i + 1], data[i + 2], data[i + 3]);
+        if (replacement) {
+          data[i] = replacement.r;
+          data[i + 1] = replacement.g;
+          data[i + 2] = replacement.b;
+          data[i + 3] = 255;
+        }
+      }
+      return imageData;
+    }
+
+    // The map image is shown with object-fit:contain, so it may be letterboxed
+    // inside its element box. Return the actual displayed content box.
+    function getImageContentBox() {
+      const rect = regionImage.getBoundingClientRect();
+      const natW = regionImage.naturalWidth;
+      const natH = regionImage.naturalHeight;
+      if (!natW || !natH) return null;
+      const natAspect = natW / natH;
+      const curAspect = rect.width / rect.height;
+      let x = rect.left, y = rect.top, w = rect.width, h = rect.height;
+      if (natAspect > curAspect) {
+        h = rect.width / natAspect;
+        y = rect.top + (rect.height - h) / 2;
+      } else {
+        w = rect.height * natAspect;
+        x = rect.left + (rect.width - w) / 2;
+      }
+      return { left: x, top: y, width: w, height: h };
+    }
+
+    // Reposition the overlay canvas so it exactly covers the displayed map
+    // content, then clip it to the hovered button's area.
+    function showHighlight(link) {
+      if (!yellowReady || !imageReady) return;
+      const content = getImageContentBox();
+      if (!content) return;
+      const frameRect = regionDisplay.getBoundingClientRect();
+      regionCanvas.style.position = 'absolute';
+      regionCanvas.style.left = `${content.left - frameRect.left}px`;
+      regionCanvas.style.top = `${content.top - frameRect.top}px`;
+      regionCanvas.style.width = `${content.width}px`;
+      regionCanvas.style.height = `${content.height}px`;
+
+      const r = link.getBoundingClientRect();
+      const left = Math.max(r.left, content.left);
+      const top = Math.max(r.top, content.top);
+      const right = Math.min(r.right, content.left + content.width);
+      const bottom = Math.min(r.bottom, content.top + content.height);
+      if (right <= left || bottom <= top) {
+        regionCanvas.style.visibility = 'hidden';
+        return;
+      }
+      const clipTop = top - content.top;
+      const clipRight = content.left + content.width - right;
+      const clipBottom = content.top + content.height - bottom;
+      const clipLeft = left - content.left;
+      regionCanvas.style.clipPath = `inset(${clipTop}px ${clipRight}px ${clipBottom}px ${clipLeft}px)`;
+      regionCanvas.style.visibility = 'visible';
+    }
+
+    function hideHighlight() {
+      regionCanvas.style.visibility = 'hidden';
+    }
+
+    function wireLinkHover() {
+      homeMapLinks.querySelectorAll('.home-map-link').forEach((link) => {
+        link.addEventListener('mouseenter', () => showHighlight(link));
+        link.addEventListener('mouseleave', hideHighlight);
+        link.addEventListener('focus', () => showHighlight(link));
+        link.addEventListener('blur', hideHighlight);
+      });
+    }
 
     const regionButtons = {
       alarrRegion: [
@@ -137,19 +279,26 @@
     }
 
     function render() {
+      hideHighlight();
       const region = regions[state.current];
       regionImage.src = region.src;
       regionImage.alt = region.alt;
-      regionName.textContent = region.name;
 
       renderLinks(regionButtons[state.current]);
+      wireLinkHover();
       updateArrow(arrowUp, 'up', region.arrows?.up);
       updateArrow(arrowDown, 'down', region.arrows?.down);
       updateArrow(arrowLeft, 'left', region.arrows?.left);
       updateArrow(arrowRight, 'right', region.arrows?.right);
     }
 
+    regionImage.addEventListener('load', updateSourceCanvas);
     render();
+    hideHighlight();
+    window.addEventListener('resize', hideHighlight);
+    if (regionImage.complete && regionImage.naturalWidth) {
+      updateSourceCanvas();
+    }
   </script>
 </body>
 </html>
