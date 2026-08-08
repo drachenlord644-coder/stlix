@@ -189,7 +189,7 @@ a:hover { text-decoration: underline; }
   gap: 1rem;
   margin-top: 1rem;
 }
-..map-card {
+.map-card {
   display: block;
   text-align: center;
   padding: 0.5rem;
@@ -203,6 +203,7 @@ a:hover { text-decoration: underline; }
   width: 100%;
   text-decoration: none;
   cursor: pointer;
+  position: relative;
 }
 .map-card-link > * {
   pointer-events: none;
@@ -217,6 +218,8 @@ a:hover { text-decoration: underline; }
   justify-content: center;
   width: 200px;
   height: 200px;
+  position: relative;
+  z-index: 2;
   background: rgba(0, 112, 243, 0.1);
   border: 2px solid #0070f3;
   border-radius: 18px;
@@ -234,6 +237,8 @@ a:hover { text-decoration: underline; }
   display: block;
   object-fit: contain;
   pointer-events: none;
+  position: relative;
+  z-index: 1;
 }
 .briar-action {
   display: flex;
