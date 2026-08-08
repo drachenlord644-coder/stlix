@@ -35,7 +35,8 @@ main {
 }
 
 .interactive-home {
-  width: min(100%, 960px);
+  width: auto;
+  max-width: 100%;
   background: rgba(255,255,255,.92);
   border: 1px solid rgba(15, 23, 42, 0.08);
   border-radius: 28px;
@@ -52,7 +53,7 @@ main {
 .map-frame {
   position: relative;
   width: auto;
-  max-width: 100%;
+  max-width: none;
 }
 
 .region-display {
@@ -63,7 +64,7 @@ main {
 
 .region-display img {
   width: auto;
-  max-width: 100%;
+  max-width: none;
   height: auto;
   object-fit: contain;
   border-radius: 18px;
