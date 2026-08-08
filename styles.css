@@ -77,37 +77,150 @@ main {
   border-radius: 18px;
   background: #f9fafb;
   display: block;
+  pointer-events: none;
 }
 
-.briar-button {
+.home-map-links {
   position: absolute;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200px;
-  height: 200px;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+}
+
+.home-map-link {
+  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 160px;
+  height: 46px;
+  padding: 0 0.75rem;
+  cursor: pointer;
   background: transparent;
   color: transparent;
-  text-indent: -9999px;
-  overflow: hidden;
-  opacity: 0;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
   text-decoration: none;
   border: none;
-  font-weight: 700;
-  text-transform: uppercase;
-  border-radius: 12px;
-  z-index: 30;
+  border-radius: 16px;
+  box-shadow: none;
+  z-index: 41;
   pointer-events: auto;
 }
 
+.home-link-1 {
+  left: 40px;
+  top: 90px;
+  width: 120px;
+  height: 120px;
+  transform: none;
+  
+}
+
+.home-link-2 {
+  left: 600px;
+  top: 10%;
+  width: 150px;
+  height: 150px;
+  transform: translateX(-50%);
+}
+
+.home-link-3 {
+  width: 200px;
+  height: 170px;
+ left: 66%;
+  top: 13%;
+  transform: none;
+}
+
+.home-link-4 {
+  width: 120px;
+  height: 120px;
+  left: 90%;
+  top: 10%;
+  transform: translateX(-50%);
+}
+
+.home-link-5 {
+   width: 120px;
+  height: 120px;
+  left: 73%;
+  top: 48%;
+  transform: translateX(-50%);
+}
+
+.home-link-6 {
+  width: 120px;
+  height: 120px;
+  left: 48%;
+  top: 66%;
+  transform: translateX(-50%);
+}
+
+.home-link-7 {  
+  width: 120px;
+  height: 120px;
+  left: 7%;
+  top: 66%;
+}
+
+.home-link-8 {
+  width: 120px;
+  height: 120px;
+  left: 3%;
+  top: 42%;
+}
+
+.home-link-9 {
+   width: 120px;
+  height: 120px;
+  left: 50%;
+  top: 45%;
+  transform: translateX(-50%);
+}
+
+.home-link-10 {
+   width: 120px;
+  height: 120px;
+  left: 86%;
+  top: 67%;
+  transform: translateX(-50%);
+}
+
+.home-link-11 {
+  width: 150px;
+  height: 170px;
+  left: 16%;
+  top: 35%;
+}
+
+.home-link-12 {
+  width: 100px;
+  height: 100px;
+  left: 36%;
+  top: 57%;
+  transform: translateX(-50%);
+}
+
+.home-link-13 {
+  width: 120px;
+  height: 120px;
+  left: 33%;
+  top: 12%;
+  transform: translateX(-50%);
+}
+
 .region-label {
-  margin-top: 1rem;
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
   font-size: 1.4rem;
   font-weight: 700;
   text-align: center;
+  z-index: 20;
 }
 
 .arrow {
@@ -121,6 +234,8 @@ main {
   display: grid;
   place-items: center;
   box-shadow: none;
+  z-index: 100;
+  pointer-events: auto;
 }
 
 .arrow:hover {
@@ -237,8 +352,32 @@ a:hover { text-decoration: underline; }
   transform: translateX(-50%);
   top: -220px;
   pointer-events: auto;
-  background: rgba(0, 0, 0, 0);
+  background: rgba(255, 0, 0, 0.18);
+  border: 1px solid rgba(255, 0, 0, 0.6);
   z-index: 20;
+}
+.map-card.skyline-hill .map-card-link::after {
+  display: none;
+}
+.map-card-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 0, 0, 0.45) !important;
+  border: 4px dashed rgba(255, 255, 0, 0.95) !important;
+  color: #ffffff !important;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  z-index: 9999 !important;
+  border-radius: 18px;
+  pointer-events: auto;
+}
+.map-card-overlay:hover {
+  background: rgba(255, 0, 0, 0.65) !important;
 }
 .map-card-link {
   display: block;
