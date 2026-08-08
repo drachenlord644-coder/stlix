@@ -17,24 +17,29 @@
         <div class="map-frame">
           <button id="arrow-up" class="arrow arrow-big up" aria-label="Go to Brigher Province">
             <img src="interactivemaping/down_arrow_1.png" alt="Up arrow">
+            <img class="arrow-hover-img" src="interactivemaping/down_arrow_1_hover.png" alt="" aria-hidden="true">
           </button>
 
           <button id="arrow-left" class="arrow arrow-small left" aria-label="Go to Alarrian Wilderness">
             <img src="interactivemaping/right_arrow_1.png" alt="Left arrow">
+            <img class="arrow-hover-img" src="interactivemaping/right_arrow_1_hover.png" alt="" aria-hidden="true">
           </button>
 
           <div class="region-display">
             <img id="region-image" src="interactivemaping/alarrRegion.png" alt="Alarr Region">
+            <img id="region-image-hover" class="region-hover-overlay" src="interactivemaping/alarrRegion_hover.png" alt="" aria-hidden="true">
             <p id="region-name" class="region-label">Alarr Region</p>
             <div class="home-map-links" id="home-map-links"></div>
           </div>
 
           <button id="arrow-right" class="arrow arrow-small right" aria-label="Go to Alarr Coast">
             <img src="interactivemaping/right_arrow_1.png" alt="Right arrow">
+            <img class="arrow-hover-img" src="interactivemaping/right_arrow_1_hover.png" alt="" aria-hidden="true">
           </button>
 
           <button id="arrow-down" class="arrow arrow-big down hidden" aria-label="Go back to Alarr Region">
             <img src="interactivemaping/down_arrow_1.png" alt="Down arrow">
+            <img class="arrow-hover-img" src="interactivemaping/down_arrow_1_hover.png" alt="" aria-hidden="true">
           </button>
         </div>
       </div>
@@ -48,24 +53,28 @@
       alarrRegion: {
         name: 'Alarr Region',
         src: 'interactivemaping/alarrRegion.png',
+        hoverSrc: 'interactivemaping/alarrRegion_hover.png',
         alt: 'Alarr Region',
         arrows: { left: 'alarrianWilderness', right: 'alarrCoast', up: 'brigherProvince' }
       },
       alarrCoast: {
         name: 'Alarr Coast',
         src: 'interactivemaping/AlarrCoast.png',
+        hoverSrc: 'interactivemaping/AlarrCoast_hover.png',
         alt: 'Alarr Coast',
         arrows: { left: 'alarrRegion' }
       },
       alarrianWilderness: {
         name: 'Alarrian Wilderness',
         src: 'interactivemaping/AlrrianWilderness.png',
+        hoverSrc: 'interactivemaping/AlrrianWilderness_hover.png',
         alt: 'Alarrian Wilderness',
         arrows: { right: 'alarrRegion' }
       },
       brigherProvince: {
         name: 'Brigher Province',
         src: 'interactivemaping/BriarProvince.png',
+        hoverSrc: 'interactivemaping/BriarProvince_hover.png',
         alt: 'Brigher Province',
         arrows: { down: 'alarrRegion' }
       }
@@ -73,6 +82,7 @@
 
     const state = { current: 'alarrRegion' };
     const regionImage = document.getElementById('region-image');
+    const regionHoverImage = document.getElementById('region-image-hover');
     const regionName = document.getElementById('region-name');
     const homeMapLinks = document.getElementById('home-map-links');
     const arrowUp = document.getElementById('arrow-up');
@@ -101,14 +111,34 @@
       brigherProvince: []
     };
 
+    function showHoverPatch(link) {
+      const overlay = regionHoverImage.getBoundingClientRect();
+      const target = link.getBoundingClientRect();
+      const top = target.top - overlay.top;
+      const left = target.left - overlay.left;
+      const right = overlay.right - target.right;
+      const bottom = overlay.bottom - target.bottom;
+      regionHoverImage.style.clipPath = `inset(${top}px ${right}px ${bottom}px ${left}px)`;
+      regionHoverImage.classList.add('is-visible');
+    }
+
+    function hideHoverPatch() {
+      regionHoverImage.classList.remove('is-visible');
+    }
+
     function renderLinks(buttons) {
       homeMapLinks.innerHTML = '';
+      hideHoverPatch();
       if (!buttons?.length) return;
       buttons.forEach(({ label, href }, index) => {
         const link = document.createElement('a');
         link.className = `home-map-link home-link-${index + 1}`;
         link.href = href;
         link.textContent = label;
+        link.addEventListener('mouseenter', () => showHoverPatch(link));
+        link.addEventListener('focus', () => showHoverPatch(link));
+        link.addEventListener('mouseleave', hideHoverPatch);
+        link.addEventListener('blur', hideHoverPatch);
         homeMapLinks.appendChild(link);
       });
     }
@@ -140,6 +170,7 @@
       const region = regions[state.current];
       regionImage.src = region.src;
       regionImage.alt = region.alt;
+      regionHoverImage.src = region.hoverSrc;
       regionName.textContent = region.name;
 
       renderLinks(regionButtons[state.current]);
