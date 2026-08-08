@@ -83,20 +83,19 @@ main {
 
 .arrow {
   position: absolute;
-  background: rgba(15, 23, 42, 0.85);
+  background: rgba(255, 255, 255, 0.0);
   border: none;
-  border-radius: 12px;
-  padding: 0.45rem;
+  border-radius: 0;
+  padding: 0;
   cursor: pointer;
   transition: transform 0.15s ease, background 0.15s ease;
   display: grid;
   place-items: center;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
+  box-shadow: none;
 }
 
 .arrow:hover {
-  transform: scale(1.05);
-  background: rgba(15, 23, 42, 1);
+  transform: scale(1.08);
 }
 
 .arrow.hidden {
@@ -105,13 +104,13 @@ main {
 
 .arrow img {
   display: block;
-  width: 72px;
+  width: 88px;
   height: auto;
   transition: transform 0.15s ease;
 }
 
 .arrow-big img {
-  width: 120px;
+  width: 160px;
 }
 
 .arrow-small img {
@@ -143,11 +142,11 @@ main {
 }
 
 .arrow.up img {
-  transform: rotate(0deg);
+  transform: rotate(180deg);
 }
 
 .arrow.down img {
-  transform: rotate(180deg);
+  transform: rotate(0deg);
 }
 
 .arrow.left img {
