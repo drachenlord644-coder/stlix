@@ -235,6 +235,30 @@ a:hover { text-decoration: underline; }
   object-fit: contain;
   pointer-events: none;
 }
+.briar-action {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0 1.5rem;
+}
+.briar-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 80px;
+  background: #0070f3;
+  color: white;
+  border-radius: 18px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 0 10px 25px rgba(0, 112, 243, 0.18);
+}
+.briar-button:hover {
+  background: #0058d4;
+}
 .map-card img {
   width: 100%;
   height: auto;
