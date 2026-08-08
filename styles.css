@@ -240,6 +240,26 @@ a:hover { text-decoration: underline; }
   position: relative;
   z-index: 1;
 }
+.briar-card {
+  position: relative;
+}
+.briar-overlay-button {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 200px;
+  height: 200px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 12px;
+  z-index: 10;
+}
 .briar-action {
   display: flex;
   justify-content: center;
