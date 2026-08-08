@@ -81,7 +81,7 @@ main {
   background: rgba(15, 23, 42, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 12px;
-  padding: 0.5rem;
+  padding: 0.45rem;
   cursor: pointer;
   transition: transform 0.15s ease, background 0.15s ease;
   display: grid;
@@ -100,45 +100,57 @@ main {
 
 .arrow img {
   display: block;
-  width: 86px;
+  width: 72px;
   height: auto;
+  transition: transform 0.15s ease;
 }
 
 .arrow-big img {
-  width: 110px;
+  width: 100px;
 }
 
 .arrow-small img {
-  width: 78px;
+  width: 72px;
 }
 
 .arrow.up {
-  top: -58px;
+  top: -68px;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .arrow.down {
-  bottom: -58px;
+  bottom: -68px;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .arrow.left {
-  left: -64px;
-  top: 50%;
-  transform: translateY(-50%) rotate(180deg);
-}
-
-.arrow.right {
-  right: -64px;
+  left: -68px;
   top: 50%;
   transform: translateY(-50%);
 }
 
-.arrow.left img,
+.arrow.right {
+  right: -68px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.arrow.up img {
+  transform: rotate(180deg);
+}
+
+.arrow.down img {
+  transform: rotate(0deg);
+}
+
+.arrow.left img {
+  transform: rotate(0deg);
+}
+
 .arrow.right img {
-  width: 78px;
+  transform: rotate(180deg);
 }
 
 .instructions {
